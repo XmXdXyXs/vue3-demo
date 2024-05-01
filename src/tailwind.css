@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.dark {
+    --v1-text-color: #fff;
+    --v1-tex-default-color: #fff;
+    --color-background: #0a0a0a;
+    --v1-border-color: rgba(23, 114, 246, 0.5);
+    --v1-text2-color: rgb(23, 114, 246);
+    --v1-background-color: #1772f6;
+    --v1-border-input: #909399;
+    --v1-text-error-color: red;
+}
+
+.light {
+    --v1-text-color: #0a0a0a;
+    --color-background: #fff;
+    --v1-tex-default-color: #fff;
+    --v1-border-color: rgba(23, 114, 246, 0.5);
+    --v1-text2-color: rgb(23, 114, 246);
+    --v1-background-color: #1772f6;
+    --v1-border-input: #e6e8eb;
+    --v1-text-error-color: red;
+}
