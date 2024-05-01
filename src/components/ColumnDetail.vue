@@ -23,9 +23,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
 import { useRoute } from "vue-router";
-import { testData, testPosts } from "../testData";
+import { useStore } from "vuex";
 import PostList from "./PostList.vue";
 export default defineComponent({
   components: {
@@ -36,9 +36,14 @@ export default defineComponent({
     let paramsId = +route.params.id;
     let list;
     let column;
+    let store = useStore();
     if (paramsId) {
-      list = testPosts.filter((list) => list.columnId === paramsId);
-      column = testData.find((column) => column.id === paramsId);
+      list = computed(() => {
+        return store.getters.testPostsFormat(paramsId);
+      });
+      column = computed(() => {
+        return store.getters.testDataFormat(paramsId);
+      });
     }
     return {
       paramsId,

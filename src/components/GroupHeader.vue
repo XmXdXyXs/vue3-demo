@@ -43,7 +43,6 @@ import { defineComponent, PropType, ref, watch } from "vue";
 import { Sunny, Moon } from "@element-plus/icons-vue";
 import { darkMode } from "../utils/index";
 import Drapdown from "./Drapdown.vue";
-
 import { ElSwitch } from "element-plus";
 export interface GlobaHeaderProps {
   id?: number;

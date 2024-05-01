@@ -25,32 +25,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import ColumnList, { ColumnProps } from "../components/ColumnList.vue";
+import { defineComponent, computed } from "vue";
+import ColumnList from "../components/ColumnList.vue";
 import { ElButton } from "element-plus";
-const testData: ColumnProps[] = [
-  {
-    id: 1,
-    title: "test1专栏",
-    description: "这是test1文章， 欢迎关注",
-    avatar:
-      "https://wechatavator-1252524126.file.myqcloud.com/appF96umJwe7950/image/compress/3c0d8469a3d9997b9986a57f8ffaa04e_20240219_462dad.jpeg",
-  },
-  {
-    id: 2,
-    title: "test2专栏",
-    description: "这是test2文章， 欢迎关注",
-    avatar:
-      "https://wechatavator-1252524126.file.myqcloud.com/appF96umJwe7950/image/compress/3c0d8469a3d9997b9986a57f8ffaa04e_20240219_462dad.jpeg",
-  },
-  {
-    id: 3,
-    title: "test3专栏",
-    description: "这是test3文章， 欢迎关注",
-    avatar:
-      "https://wechatavator-1252524126.file.myqcloud.com/appF96umJwe7950/image/compress/3c0d8469a3d9997b9986a57f8ffaa04e_20240219_462dad.jpeg",
-  },
-];
+import { useStore } from "vuex";
 export default defineComponent({
   components: {
     ColumnList,
@@ -58,6 +36,10 @@ export default defineComponent({
   },
   name: "homeViews",
   setup() {
+    let store = useStore();
+    const testData = computed(() => {
+      return store.state.testData;
+    });
     return {
       testData,
     };

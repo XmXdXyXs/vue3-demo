@@ -26,6 +26,7 @@ export default defineComponent({
   props: {
     list: {
       type: Array as PropType<PostProps[]>,
+      default: () => [],
     },
   },
 });

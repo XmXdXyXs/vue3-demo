@@ -6,15 +6,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
 import { darkMode } from "./utils/index";
-import GroupHeader, { GlobaHeaderProps } from "./components/GroupHeader.vue";
+import GroupHeader from "./components/GroupHeader.vue";
+import { useStore } from "vuex";
 darkMode();
-
-const user: GlobaHeaderProps = {
-  isLogin: false,
-  name: "strive",
-};
 
 export default defineComponent({
   name: "App",
@@ -23,6 +19,8 @@ export default defineComponent({
     GroupHeader,
   },
   setup() {
+    const store = useStore();
+    const user = computed(() => store.state.user);
     return {
       user,
     };

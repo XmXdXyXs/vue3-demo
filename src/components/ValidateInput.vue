@@ -2,12 +2,23 @@
   <div class="validateInput flex flex-col gap-[8px]">
     <div class="text-v1TextColor">{{ label }}</div>
     <input
+      v-if="tag == 'input'"
       :value="rulesFrom.val"
+      class="h-[32px]"
       :class="{ 'error-input': !rulesFrom.rulesFlag }"
       @blur="chnageBlurValidate"
       @input="handleInput"
       v-bind="$attrs"
     />
+    <textarea
+      v-else
+      :value="rulesFrom.val"
+      :class="{ 'error-input': !rulesFrom.rulesFlag }"
+      @blur="chnageBlurValidate"
+      @input="handleInput"
+      v-bind="$attrs"
+    >
+    </textarea>
     <div
       v-show="!rulesFrom.rulesFlag"
       class="text-v1TextErrorColor text-[12px]"
@@ -23,6 +34,7 @@ export interface RulesFromProps {
   type: "required" | "email";
   message: string;
 }
+type Tag = "input" | "texteare";
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 export default defineComponent({
   name: "ValidateInput",
@@ -34,6 +46,10 @@ export default defineComponent({
     modelValue: String,
     label: {
       type: String,
+    },
+    tag: {
+      type: String as PropType<Tag>,
+      default: "input",
     },
   },
   inheritAttrs: false,
@@ -86,15 +102,16 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.validateInput input {
+.validateInput input,
+textarea {
   background: var(--color-background);
   box-shadow: 0 0 0 1px var(--v1-border-input) inset;
-  height: 32px;
   border-radius: 8px;
   outline: none;
   text-indent: 6px;
 }
-.validateInput input {
+.validateInput input,
+textarea {
   color: var(--v1-text-color);
 }
 .validateInput .error-input {
