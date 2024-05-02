@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import ColumnDetail from "@/components/ColumnDetail.vue";
 export default defineComponent({
@@ -15,6 +15,9 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
+    onMounted(() => {
+      window.scrollTo(0, 0);
+    });
     return {
       route,
     };

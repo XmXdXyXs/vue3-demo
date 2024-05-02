@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
+import { defineComponent, computed, onMounted } from "vue";
 import ColumnList from "../components/ColumnList.vue";
 import { ElButton } from "element-plus";
 import { useStore } from "vuex";
@@ -39,6 +39,9 @@ export default defineComponent({
     let store = useStore();
     const testData = computed(() => {
       return store.state.testData;
+    });
+    onMounted(() => {
+      store.dispatch("getData");
     });
     return {
       testData,

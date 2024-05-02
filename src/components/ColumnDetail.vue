@@ -6,14 +6,14 @@
         <div class="mb-4 border-bottom pb-4 align-items-center" v-if="column">
           <div class="text-center">
             <img
-              :src="column.avatar"
+              :src="column?.avatar?.url"
               :alt="column.title"
               class="rounded-circle border"
             />
           </div>
           <div>
-            <h4>{{ column.title }}</h4>
-            <p class="text-muted">{{ column.description }}</p>
+            <h4>{{ column?.title }}</h4>
+            <p class="text-muted">{{ column?.description }}</p>
           </div>
         </div>
       </div>
@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
+import { defineComponent, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 import PostList from "./PostList.vue";
@@ -33,18 +33,28 @@ export default defineComponent({
   },
   setup() {
     let route = useRoute();
-    let paramsId = +route.params.id;
+    let paramsId = route.params.id;
     let list;
     let column;
+    // column = computed(() => {
+    //   return store.state.testPosts;
+    // });
     let store = useStore();
-    if (paramsId) {
-      list = computed(() => {
-        return store.getters.testPostsFormat(paramsId);
-      });
-      column = computed(() => {
-        return store.getters.testDataFormat(paramsId);
-      });
-    }
+    onMounted(() => {
+      if (paramsId) {
+        store.dispatch("getDataDetail", paramsId);
+        store.dispatch("getDataDetailList", paramsId);
+        // list = computed(() => {
+        //   return store.getters.testPostsFormat(paramsId);
+        // });
+      }
+    });
+    column = computed(() => {
+      return store.getters.getColumnById(paramsId);
+    });
+    list = computed(() => {
+      return store.state.testDataList;
+    });
     return {
       paramsId,
       list,
