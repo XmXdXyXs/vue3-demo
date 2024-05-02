@@ -12,7 +12,7 @@
         <ValidateInput
           :rules="rulesPassword"
           label="密码"
-          v-model="emailVike"
+          v-model="passwordlVike"
           type="password"
           placeholder="请输入密码"
         />
@@ -30,7 +30,8 @@ import ValidateInput, { RulesFromProps } from "../components/ValidateInput.vue";
 import ValidateFrom from "../components/ValidateFrom.vue";
 import { ElButton } from "element-plus";
 import { useRouter } from "vue-router";
-
+import { useStore } from "vuex";
+import { ElMessage } from "element-plus";
 const rules: RulesFromProps[] = [
   {
     type: "required",
@@ -55,14 +56,28 @@ export default defineComponent({
     ElButton,
   },
   setup() {
-    let emailVike = ref("");
-    let passwordlVike = ref("");
+    let emailVike = ref("111@test.com");
+    let passwordlVike = ref("111111");
     let router = useRouter();
+    let store = useStore();
     const onformDataSubmit = (result: boolean) => {
       if (result) {
-        router.push({ name: "column", params: { id: 1 } });
+        store
+          .dispatch("getToken", {
+            email: emailVike.value,
+            password: passwordlVike.value,
+          })
+          .then((data) => {
+            console.log(data, "data");
+            router.push("/");
+          })
+          .catch((e) => {
+            ElMessage.error(e.error);
+          });
       }
     };
+    // 111@test.com
+    // 111111
     return {
       rules,
       rulesPassword,

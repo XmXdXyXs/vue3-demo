@@ -8,13 +8,15 @@ interface StateData {
   testPosts: PostProps[];
   testDataList: ColumnPropsList[];
   laodingFlag: boolean;
+  token: string;
 }
 // 创建一个新的 store 实例
 const store = createStore<StateData>({
   state() {
     return {
+      token: localStorage.getItem("token") || "",
       testData: [],
-      user: { isLogin: false, id: 1, name: "strive" },
+      user: { isLogin: false },
       testPosts: [],
       testDataList: [],
       laodingFlag: false,
@@ -37,6 +39,15 @@ const store = createStore<StateData>({
     },
     setLaodingFlag(state, data) {
       state.laodingFlag = data;
+    },
+    // 设置token
+    setToken(state, token) {
+      state.token = token;
+      localStorage.setItem("token", token);
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    },
+    setUserInfo(state, rawData) {
+      state.user = { isLogin: true, ...rawData };
     },
   },
   getters: {
@@ -67,6 +78,23 @@ const store = createStore<StateData>({
       const response = await axios.get(`/columns/${id}/posts`);
       if (response.status == 200) {
         ctx.commit("setDataDetailList", response.data.data.list);
+      }
+    },
+    // 获取token
+    async getToken(ctx, payload) {
+      const response = await axios.post("/user/login", payload);
+      if (response.status == 200) {
+        ctx.commit("setToken", response.data.data.token);
+        const userData = await ctx.dispatch("fetchCurrentUser");
+        return userData;
+      }
+    },
+    // 获取登陆人信息
+    async fetchCurrentUser({ commit }) {
+      const response = await axios.get("/user/current");
+      if (response.status == 200) {
+        commit("setUserInfo", response.data.data);
+        return response.data.data;
       }
     },
   },

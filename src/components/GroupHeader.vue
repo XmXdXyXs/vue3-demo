@@ -9,7 +9,7 @@
               <div
                 class="border box-border px-[8px] cursor-pointer min-w-[56px] text-v1TextDefault text-center h-[32px] leading-[30px] rounded-[8px]"
               >
-                <Drapdown :userName="`您好 ${user.name}`" />
+                <Drapdown :userName="`您好 ${user.nickName}`" />
               </div>
             </div>
             <div v-else class="flex flex-row gap-[8px]">
@@ -45,9 +45,13 @@ import { darkMode } from "../utils/index";
 import Drapdown from "./Drapdown.vue";
 import { ElSwitch } from "element-plus";
 export interface GlobaHeaderProps {
-  id?: number;
-  name?: string;
   isLogin: boolean;
+  avatar?: string | null;
+  column?: string;
+  description?: string;
+  email?: string;
+  nickName?: string;
+  _id?: string;
 }
 export default defineComponent({
   name: "GlobalHeader",
